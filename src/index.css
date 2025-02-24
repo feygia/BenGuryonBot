@@ -1,13 +1,76 @@
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src: url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src:url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src:  url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src:  url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src: url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src: url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src: url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans Hebrew';
+  src: url('/src/assets/fonts/OpenSansHebrew/OpenSansHebrew-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* החלת הפונט על כל האתר */
 body {
+  font-family: 'Open Sans Hebrew', sans-serif;
+}
+
+
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */

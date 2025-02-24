@@ -1,0 +1,80 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.course-card {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 16px;
+    width: 170px; /* רוחב קבוע */
+    height: 145px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    text-align: center;
+    margin-bottom: 15px; /* מרווח אחיד במקום margin-left */
+}
+
+.course-header {
+    font-size: 14px;
+    color: var(--Primary-Orange---Accessible, rgba(192, 86, 2, 1));
+    margin-bottom: 8px;
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    .fav {
+        margin-right: auto;
+    }
+    .clock {
+        margin-left: 5px;
+    }
+}
+
+.icon {
+    font-size: 16px;
+}
+
+.course-name {
+    display: -webkit-box;
+  -webkit-line-clamp: 2; /* מגביל לשתי שורות */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3em; /* להתאים לפי גובה השורה */
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    text-align: right;
+    
+}
+
+.course-props {
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    line-height: 18px;
+    flex-wrap: wrap;
+    /* מבטיח שהאלמנטים יגלשו לשורה חדשה */
+    justify-content: flex-start;
+    gap: 8px;
+    max-width: 100%;
+    /* מונע יציאה מגבולות ההורה */
+    overflow: hidden;
+    /* מונע גלישה מחוץ לתיבה */
+    word-wrap: break-word;
+    /* מבטיח שהתוכן יתפצל במקרה הצורך */
+}
+
+.course-prop {
+    white-space: nowrap;
+}
+
+.divider {
+    color: #ccc;
+}

@@ -1,0 +1,96 @@
+/* עיצוב הודעות הבוט */
+.chat-message-bot {
+
+  color: #000;
+  text-align: right;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+  max-width: 96%;
+
+  .header {
+    font-weight: bold;
+    color: var(--Secondary-DarkOrange, rgba(243, 116, 33, 1));
+
+  }
+
+  ;
+}
+
+.chat-message-cat{
+  border: 1px solid var(--Secondary-gray-tint, rgba(241, 241, 241, 1));
+  box-shadow: 0px 2px 22px 0px rgba(241, 241, 241, 1);
+  border-radius: 4px;
+  gap: 4px;
+  padding: 16px;
+  
+}
+
+/* עיצוב הודעות המשתמש */
+.chat-message-user span,
+.chat-message-link a {
+  cursor: pointer;
+  background: var(--Light-orange, rgba(255, 235, 204, 1));
+  color: black;
+  text-align: right;
+  padding: 7px;
+  border-radius: 10px;
+  margin: 5px 0;
+  max-width: 96%;
+  margin-left: auto;
+
+  img {
+    padding-right: 5px;
+    padding-left: 5px;
+    vertical-align: middle;
+  }
+
+}
+
+.chat-message-link a {
+  text-decoration: underline;
+  color: rgba(192, 86, 2, 1);
+}
+
+.options-question {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.options-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.option-button {
+  background-color: #fff7f0;
+  border: 1px solid rgba(192, 86, 2, 1);
+  border-radius: 40px;
+  padding: 10px;
+  font-size: 14px;
+  color: rgba(192, 86, 2, 1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.option-button:hover {
+  background-color: rgba(192, 86, 2, 1);
+  color: #fff;
+}
+
+.show-more {
+  grid-column: 1 / -1; /* זה גורם ל-DIV האחרון לרדת שורה */
+}
+
+.show-more-button {
+  background-color: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: Open Sans Hebrew;
+  font-size: 16px;
+  color: #c05602;
+  width:max-content;
+}
