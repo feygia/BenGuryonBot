@@ -7,42 +7,42 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [input, setInput] = useState("");
-  const [file, setFile] = useState(null);
+  const [uploadFile, setUploadFile] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
   const [messages, setMessages] = useState([
-    { id: 1, value: "היי, אני פולה, היועצת הדיגיטלית של אוניברסיטת בן גוריון. אני כאן כדי לייעץ לך לגבי מסלול לימודים, תהליכי קבלה ואפשרויות. האם יש לך כיוון לגבי מסלול לימודים?", type: "bot" },
-    { id: 2, type: "options", value: { header: "במה היית רוצה לתרום לעולם?", options: ["תרומה 1", "תרומה 2טקסט ", "תרומה 3טקסט ארך", "תרומה בדיקה בדיקה 4"] } }
-    , {
-      id: 3, type: "courses", value:
-      {
-        courses: [
-          { name: "ניהול ומדעי המחשב", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם ספרות אנגלית", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב וקיימות ושינויי אקלים", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
-          { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] }
-        ]
-      }
-    },
+    // { id: 1, value: "היי, אני פולה, היועצת הדיגיטלית של אוניברסיטת בן גוריון. אני כאן כדי לייעץ לך לגבי מסלול לימודים, תהליכי קבלה ואפשרויות. האם יש לך כיוון לגבי מסלול לימודים?", type: "bot" },
+    // { id: 2, type: "options", value: { header: "במה היית רוצה לתרום לעולם?", options: ["תרומה 1", "תרומה 2טקסט ", "תרומה 3טקסט ארך", "תרומה בדיקה בדיקה 4"] } }
+    // , {
+    //   id: 3, type: "courses", value:
+    //   {
+    //     courses: [
+    //       { name: "ניהול ומדעי המחשב", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם היסטוריה של עם ישראל", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם ספרות אנגלית", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מחשבת ישראל", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב וקיימות ושינויי אקלים", IsOpenReg: false, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] },
+    //       { name: "מדעי המחשב עם מתמטיקה", IsOpenReg: true, props: ["חטיבה מורחבת", "תוכנית ראשית", "דו-מחלקתי"] }
+    //     ]
+    //   }
+    // },
   ]);
 
    const sendMessageAsync = async (_type,_value,_userid) => {
@@ -54,32 +54,36 @@ export default function ChatWidget() {
         }, { headers: {'Content-Type': 'application/json'} });
 
         if (response && response.data) {
-            if (response.data.status === "success") {
+            if (response.status === 200) {
+              setMessages((prevMessages) => [ ...prevMessages, response.data]);
             }
-            if (response.data.status === "error") {
+            if (response.status !=200) {
                 throw new Error(`Server failed: ${response.data.status}`);
             }
         }
     } catch (error) {
         console.error('Error post message:', error.message);
-        throw error;
+        //throw error;
     }
+};
+
+const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    debugger;
+    const reader = new FileReader();
+    reader.readAsDataURL(file); // קריאת הקובץ
+    reader.onload = () => resolve(reader.result.split(',')[1]); // מחרוזת Base64 (ללא header)
+    reader.onerror = (error) => reject(error);
+  });
 };
 
   const handleFileUpload = (event) => {
     const uploadedFile = event.target.files[0]; // גישה לקובץ הראשון שהועלה
     if (uploadedFile) {
-      setFile(uploadedFile);
+      setUploadFile(uploadedFile);
       const urlFile=URL.createObjectURL(uploadedFile);
       debugger;
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: Date.now(),
-          value:{name:uploadedFile.name,url:urlFile} ,
-          type: "link",
-        },
-      ]);
+      sendMessage("file",{name:uploadedFile.name,url:urlFile})
     }
   };
 
@@ -89,9 +93,13 @@ export default function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+     sendMessageAsync('user','aa','1');
+  },[] );
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && input.trim() !== "") {
-      sendMessage();
+      sendMessage("user",input.trim());
     }
   };
 
@@ -99,12 +107,36 @@ export default function ChatWidget() {
     sendMessage(selectedOption);
   };
 
-  const sendMessage = async (selectedOption = "") => {
-    if (input.trim() || selectedOption !== "") {
-      const msg={
+  const sendMessage = async (_type,_value) => {
+    debugger;
+    let msg=null
+    if(_type==="file")
+    {
+      msg={
         id: Date.now(),
-        value: selectedOption !== "" ? selectedOption : input,
-        type: "user",
+        value: _value,
+        type: _type,
+      };
+      setMessages((prevMessages) => [ ...prevMessages, msg]);
+      const res = await sendMessageAsync(msg.type,await fileToBase64(uploadFile),'');
+
+    }
+    else if(_type==="optionSelected")
+    {
+      msg={
+        id: Date.now(),
+        value: _value,
+        type: _type,
+      };
+      setMessages((prevMessages) => [ ...prevMessages, msg]);
+      const res = await sendMessageAsync(msg.type,msg.value.key,'');
+
+    }
+    else{
+      msg={
+        id: Date.now(),
+        value:input.trim() ,
+        type: _type,
       };
       setMessages((prevMessages) => [ ...prevMessages, msg]);
       setInput("");

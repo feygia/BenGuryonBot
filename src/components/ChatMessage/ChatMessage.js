@@ -8,9 +8,11 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
     switch (type) {
       case "user":
         return "chat-message-user";
+        case "optionSelected":
+        return "chat-message-user";
       case "bot":
         return "chat-message-bot";
-      case "link":
+      case "file":
         return "chat-message-link";
       case "options":
         return "chat-message-options";
@@ -23,7 +25,7 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
 
   return (
     <div className={`chat-message ${getClassName(type)}`}>
-      {value && type === "link" ? (
+      {value && type === "file" ? (
         <>
 
           <a href={value.url} download={value.name}>
@@ -38,8 +40,8 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
           <div className="options-question">{value.header}</div>
           <div className="options-list">
             {value.options.map((option, index) => (
-              <button key={index} className="option-button" onClick={() => onOptionClick(option)}>
-                {option}
+              <button key={option.key} className="option-button" onClick={() => onOptionClick(type,option)}>
+                {option.value}
               </button>
             ))}
           </div>
@@ -70,9 +72,18 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
             </>
           );
         })()
-      ) : (
+      ) : type === "bot" ? (
         <span>
-          {type === "bot" && <div className="header">פולה היועצת הדיגיטלית</div>}
+          <div className="header">פולה היועצת הדיגיטלית</div>
+          {value}
+        </span>
+     ) : type === "optionSelected" ? (
+      <span>
+        {value.value}
+      </span>
+    )
+      :(
+        <span>
           {value}
         </span>
       )
