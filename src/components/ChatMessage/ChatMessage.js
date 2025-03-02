@@ -40,7 +40,7 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
           <div className="options-question">{value.header}</div>
           <div className="options-list">
             {value.options.map((option, index) => (
-              <button key={option.key} className="option-button" onClick={() => onOptionClick(type,option)}>
+              <button key={option.key} className="option-button" onClick={() => onOptionClick(option)}>
                 {option.value}
               </button>
             ))}

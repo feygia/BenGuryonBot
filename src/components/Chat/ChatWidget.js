@@ -9,6 +9,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [uploadFile, setUploadFile] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
+  const [errors, setErrors] = useState("");
   const [messages, setMessages] = useState([
     // { id: 1, value: "היי, אני פולה, היועצת הדיגיטלית של אוניברסיטת בן גוריון. אני כאן כדי לייעץ לך לגבי מסלול לימודים, תהליכי קבלה ואפשרויות. האם יש לך כיוון לגבי מסלול לימודים?", type: "bot" },
     // { id: 2, type: "options", value: { header: "במה היית רוצה לתרום לעולם?", options: ["תרומה 1", "תרומה 2טקסט ", "תרומה 3טקסט ארך", "תרומה בדיקה בדיקה 4"] } }
@@ -45,45 +46,51 @@ export default function ChatWidget() {
     // },
   ]);
 
-   const sendMessageAsync = async (_type,_value,_userid) => {
+  const sendMessageAsync = async (_type, _value, _userid) => {
     try {
-        const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
-          type: _type,
-          value: _value,
-          userid: _userid
-        }, { headers: {'Content-Type': 'application/json'} });
+      const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
+        type: _type,
+        value: _value,
+        userid: _userid
+      }, { headers: { 'Content-Type': 'application/json' } });
 
-        if (response && response.data) {
-            if (response.status === 200) {
-              setMessages((prevMessages) => [ ...prevMessages, response.data]);
-            }
-            if (response.status !=200) {
-                throw new Error(`Server failed: ${response.data.status}`);
-            }
+      if (response && response.data) {
+        if (response.status === 200) {
+          response.data.id=Date.now();
+          setMessages((prevMessages) => [...prevMessages, response.data]);
         }
+        if (response.status != 200) {
+          throw new Error(`Server failed: ${response.data.status}`);
+        }
+      }
     } catch (error) {
-        console.error('Error post message:', error.message);
-        //throw error;
+      console.error('Error post message:', error.message);
+      throw error;
     }
-};
+  };
 
-const fileToBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    debugger;
-    const reader = new FileReader();
-    reader.readAsDataURL(file); // קריאת הקובץ
-    reader.onload = () => resolve(reader.result.split(',')[1]); // מחרוזת Base64 (ללא header)
-    reader.onerror = (error) => reject(error);
-  });
-};
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      debugger;
+      const reader = new FileReader();
+      reader.readAsDataURL(file); // קריאת הקובץ
+      reader.onload = () => resolve(reader.result.split(',')[1]); // מחרוזת Base64 (ללא header)
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const handleFileUpload = (event) => {
-    const uploadedFile = event.target.files[0]; // גישה לקובץ הראשון שהועלה
-    if (uploadedFile) {
-      setUploadFile(uploadedFile);
-      const urlFile=URL.createObjectURL(uploadedFile);
-      debugger;
-      sendMessage("file",{name:uploadedFile.name,url:urlFile})
+    try {
+      const uploadedFile = event.target.files[0]; // גישה לקובץ הראשון שהועלה
+      if (uploadedFile) {
+        setUploadFile(uploadedFile);
+        const urlFile = URL.createObjectURL(uploadedFile);
+        debugger;
+        sendMessage("file", { name: uploadedFile.name, url: urlFile })
+      }
+    }
+    catch (error) {
+      setErrors(error.message);
     }
   };
 
@@ -93,54 +100,67 @@ const fileToBase64 = (file) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+
   useEffect(() => {
-     sendMessageAsync('user','aa','1');
-  },[] );
+    try {
+      sendMessageAsync('user', 'aa', '1');
+    }
+    catch (error) {
+      setErrors(error.message);
+    }
+  }, []);
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter" && input.trim() !== "") {
-      sendMessage("user",input.trim());
+    try {
+      if (event.key === "Enter" && input.trim() !== "") {
+        sendMessage("user", input.trim());
+      }
+    }
+    catch (error) {
+      setErrors(error.message);
     }
   };
 
-  const handleOptionClick = (selectedOption) => {
-    sendMessage(selectedOption);
+  const handleOptionClick = (option) => {
+    sendMessage("optionSelected",option);
   };
 
-  const sendMessage = async (_type,_value) => {
-    debugger;
-    let msg=null
-    if(_type==="file")
-    {
-      msg={
-        id: Date.now(),
-        value: _value,
-        type: _type,
-      };
-      setMessages((prevMessages) => [ ...prevMessages, msg]);
-      const res = await sendMessageAsync(msg.type,await fileToBase64(uploadFile),'');
+  const sendMessage = async (_type, _value) => {
+    try {
+      let msg = null
+      if (_type === "file") {
+        msg = {
+          id: Date.now(),
+          value: _value,
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+        const res = await sendMessageAsync(msg.type, await fileToBase64(uploadFile), '');
 
-    }
-    else if(_type==="optionSelected")
-    {
-      msg={
-        id: Date.now(),
-        value: _value,
-        type: _type,
-      };
-      setMessages((prevMessages) => [ ...prevMessages, msg]);
-      const res = await sendMessageAsync(msg.type,msg.value.key,'');
+      }
+      else if (_type === "optionSelected") {
+        msg = {
+          id: Date.now(),
+          value: _value,
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+        const res = await sendMessageAsync(msg.type, msg.value.key, '');
 
+      }
+      else {
+        msg = {
+          id: Date.now(),
+          value: input.trim(),
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+        setInput("");
+        const res = await sendMessageAsync(msg.type, msg.value, '');
+      }
     }
-    else{
-      msg={
-        id: Date.now(),
-        value:input.trim() ,
-        type: _type,
-      };
-      setMessages((prevMessages) => [ ...prevMessages, msg]);
-      setInput("");
-      const res = await sendMessageAsync(msg.type,msg.value,'');
+    catch (error) {
+      setErrors(error.message);
     }
   };
 
@@ -170,7 +190,7 @@ const fileToBase64 = (file) => {
             <label htmlFor="file-upload" className="file-upload">
               <img src="/attachment.svg" alt="upload file" />
             </label>
-            <input id="file-upload" type="file" className="file-input" onChange={handleFileUpload}/>
+            <input id="file-upload" type="file" className="file-input" onChange={handleFileUpload} />
             <input
               className="chat-input"
               value={input}
