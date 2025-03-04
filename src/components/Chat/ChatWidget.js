@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "./ChatWidget.css";
 import ChatMessage from "../ChatMessage/ChatMessage";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid"; 
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,7 @@ export default function ChatWidget() {
   const [uploadFile, setUploadFile] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
   const [errors, setErrors] = useState("");
+  const [sessionId,setSessionId]=useState("")
   const [messages, setMessages] = useState([
     // { id: 1, value: "היי, אני פולה, היועצת הדיגיטלית של אוניברסיטת בן גוריון. אני כאן כדי לייעץ לך לגבי מסלול לימודים, תהליכי קבלה ואפשרויות. האם יש לך כיוון לגבי מסלול לימודים?", type: "bot" },
     // { id: 2, type: "options", value: { header: "במה היית רוצה לתרום לעולם?", options: ["תרומה 1", "תרומה 2טקסט ", "תרומה 3טקסט ארך", "תרומה בדיקה בדיקה 4"] } }
@@ -46,12 +48,28 @@ export default function ChatWidget() {
     // },
   ]);
 
-  const sendMessageAsync = async (_type, _value, _userid) => {
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+
+  useEffect(() => {
+    try {
+      setSessionId(uuidv4());
+      sendMessageAsync('user', 'aa');
+    }
+    catch (error) {
+      setErrors(error.message);
+    }
+  }, []);
+
+  const sendMessageAsync = async (_type, _value) => {
     try {
       const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
         type: _type,
         value: _value,
-        userid: _userid
+        userid: sessionId
       }, { headers: { 'Content-Type': 'application/json' } });
 
       if (response && response.data) {
@@ -66,6 +84,45 @@ export default function ChatWidget() {
     } catch (error) {
       console.error('Error post message:', error.message);
       throw error;
+    }
+  };
+
+  const sendMessage = async (_type, _value) => {
+    try {
+      let msg = null
+      if (_type === "file") {
+        msg = {
+          id: Date.now(),
+          value: _value,
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+        const res = await sendMessageAsync(msg.type, await fileToBase64(uploadFile));
+
+      }
+      else if (_type === "optionSelected") {
+        msg = {
+          id: Date.now(),
+          value: _value,
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+        const res = await sendMessageAsync(msg.type, msg.value.key);
+
+      }
+      else {
+        msg = {
+          id: Date.now(),
+          value: input.trim(),
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+        setInput("");
+        const res = await sendMessageAsync(msg.type, msg.value);
+      }
+    }
+    catch (error) {
+      setErrors(error.message);
     }
   };
 
@@ -94,22 +151,6 @@ export default function ChatWidget() {
     }
   };
 
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-
-  useEffect(() => {
-    try {
-      sendMessageAsync('user', 'aa', '1');
-    }
-    catch (error) {
-      setErrors(error.message);
-    }
-  }, []);
-
   const handleKeyDown = (event) => {
     try {
       if (event.key === "Enter" && input.trim() !== "") {
@@ -125,44 +166,7 @@ export default function ChatWidget() {
     sendMessage("optionSelected",option);
   };
 
-  const sendMessage = async (_type, _value) => {
-    try {
-      let msg = null
-      if (_type === "file") {
-        msg = {
-          id: Date.now(),
-          value: _value,
-          type: _type,
-        };
-        setMessages((prevMessages) => [...prevMessages, msg]);
-        const res = await sendMessageAsync(msg.type, await fileToBase64(uploadFile), '');
-
-      }
-      else if (_type === "optionSelected") {
-        msg = {
-          id: Date.now(),
-          value: _value,
-          type: _type,
-        };
-        setMessages((prevMessages) => [...prevMessages, msg]);
-        const res = await sendMessageAsync(msg.type, msg.value.key, '');
-
-      }
-      else {
-        msg = {
-          id: Date.now(),
-          value: input.trim(),
-          type: _type,
-        };
-        setMessages((prevMessages) => [...prevMessages, msg]);
-        setInput("");
-        const res = await sendMessageAsync(msg.type, msg.value, '');
-      }
-    }
-    catch (error) {
-      setErrors(error.message);
-    }
-  };
+ 
 
   return (
     <div className="chat-container">
