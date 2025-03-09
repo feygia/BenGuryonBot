@@ -57,7 +57,7 @@ export default function ChatWidget() {
   useEffect(() => {
     try {
       setSessionId(uuidv4());
-      sendMessageAsync('user', 'aa');
+      sendMessageAsync('user', 'שלום');
     }
     catch (error) {
       setErrors(error.message);
@@ -107,7 +107,7 @@ export default function ChatWidget() {
           type: _type,
         };
         setMessages((prevMessages) => [...prevMessages, msg]);
-        const res = await sendMessageAsync(msg.type, msg.value.key);
+        const res = await sendMessageAsync(msg.type, msg.value.key+","+msg.value.value);
 
       }
       else {
@@ -144,6 +144,7 @@ export default function ChatWidget() {
         const urlFile = URL.createObjectURL(uploadedFile);
         debugger;
         sendMessage("file", { name: uploadedFile.name, url: urlFile })
+        event.target.value = null;
       }
     }
     catch (error) {
