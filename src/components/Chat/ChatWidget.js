@@ -8,7 +8,7 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [input, setInput] = useState("");
-  const [uploadFile, setUploadFile] = useState(null);
+  const uploadFileRef = useRef(null);
   const [fileUrl, setFileUrl] = useState("");
   const [errors, setErrors] = useState("");
   const [sessionId,setSessionId]=useState("")
@@ -97,7 +97,7 @@ export default function ChatWidget() {
           type: _type,
         };
         setMessages((prevMessages) => [...prevMessages, msg]);
-        const res = await sendMessageAsync(msg.type, await fileToBase64(uploadFile));
+        const res = await sendMessageAsync(msg.type, await fileToBase64(uploadFileRef.current));
 
       }
       else if (_type === "optionSelected") {
@@ -140,9 +140,8 @@ export default function ChatWidget() {
     try {
       const uploadedFile = event.target.files[0]; // גישה לקובץ הראשון שהועלה
       if (uploadedFile) {
-        setUploadFile(uploadedFile);
+        uploadFileRef.current = uploadedFile; // עדכון מיידי!
         const urlFile = URL.createObjectURL(uploadedFile);
-        debugger;
         sendMessage("file", { name: uploadedFile.name, url: urlFile })
         event.target.value = null;
       }
