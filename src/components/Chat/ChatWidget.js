@@ -57,7 +57,7 @@ export default function ChatWidget() {
   useEffect(() => {
     try {
       setSessionId(uuidv4());
-     // sendMessageAsync('user', 'שלום');
+      sendMessageAsync('user', 'שלום');
     }
     catch (error) {
       setErrors(error.message);
