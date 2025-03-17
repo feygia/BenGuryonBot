@@ -57,7 +57,7 @@ export default function ChatWidget() {
   useEffect(() => {
     try {
       setSessionId(uuidv4());
-      sendMessageAsync('user', 'שלום');
+     // sendMessageAsync('user', 'שלום');
     }
     catch (error) {
       setErrors(error.message);
@@ -87,7 +87,7 @@ export default function ChatWidget() {
     }
   };
 
-  const sendMessage = async (_type, _value) => {
+  const sendMessage = async (_type=null, _value=null) => {
     try {
       let msg = null
       if (_type === "file") {
@@ -153,7 +153,7 @@ export default function ChatWidget() {
 
   const handleKeyDown = (event) => {
     try {
-      if (event.key === "Enter" && input.trim() !== "") {
+      if (event.key === "Enter" && !event.shiftKey && input.trim() !== "") {
         sendMessage("user", input.trim());
       }
     }
@@ -195,7 +195,7 @@ export default function ChatWidget() {
               <img src="/attachment.svg" alt="upload file" />
             </label>
             <input id="file-upload" type="file" className="file-input" onChange={handleFileUpload} />
-            <input
+            <textarea
               className="chat-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}

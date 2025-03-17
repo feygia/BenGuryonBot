@@ -17,13 +17,13 @@
   ;
 }
 
-.chat-message-cat{
+.chat-message-cat {
   border: 1px solid var(--Secondary-gray-tint, rgba(241, 241, 241, 1));
   box-shadow: 0px 2px 22px 0px rgba(241, 241, 241, 1);
   border-radius: 4px;
   gap: 4px;
   padding: 16px;
-  
+
 }
 
 /* עיצוב הודעות המשתמש */
@@ -38,6 +38,7 @@
   margin: 5px 0;
   max-width: 96%;
   margin-left: auto;
+  display: inline-block;
 
   img {
     padding-right: 5px;
@@ -81,7 +82,8 @@
 }
 
 .show-more {
-  grid-column: 1 / -1; /* זה גורם ל-DIV האחרון לרדת שורה */
+  grid-column: 1 / -1;
+  /* זה גורם ל-DIV האחרון לרדת שורה */
 }
 
 .show-more-button {
@@ -92,5 +94,9 @@
   font-family: Open Sans Hebrew;
   font-size: 16px;
   color: #c05602;
-  width:max-content;
+  width: max-content;
+}
+
+.wrap-text {
+  white-space: pre-line;
 }

@@ -83,7 +83,7 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
       </span>
     )
       :(
-        <span>
+        <span className="wrap-text">
           {value}
         </span>
       )
