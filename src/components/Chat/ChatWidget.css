@@ -152,6 +152,9 @@
   font-size: 18px;
   font-family: 'Open Sans Hebrew';
   height: 27px;
+  overflow: auto;
+  resize: none;
+  clip-path: inset(0px round 20px);
 }
 
 .send-button {
