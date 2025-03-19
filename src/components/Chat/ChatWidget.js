@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "./ChatWidget.css";
 import ChatMessage from "../ChatMessage/ChatMessage";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid"; 
+import { v4 as uuidv4 } from "uuid";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +11,8 @@ export default function ChatWidget() {
   const uploadFileRef = useRef(null);
   const [fileUrl, setFileUrl] = useState("");
   const [errors, setErrors] = useState("");
-  const [sessionId,setSessionId]=useState("")
+  const [sessionId, setSessionId] = useState("")
+  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([
     // { id: 1, value: "היי, אני פולה, היועצת הדיגיטלית של אוניברסיטת בן גוריון. אני כאן כדי לייעץ לך לגבי מסלול לימודים, תהליכי קבלה ואפשרויות. האם יש לך כיוון לגבי מסלול לימודים?", type: "bot" },
     // { id: 2, type: "options", value: { header: "במה היית רוצה לתרום לעולם?", options: ["תרומה 1", "תרומה 2טקסט ", "תרומה 3טקסט ארך", "תרומה בדיקה בדיקה 4"] } }
@@ -54,8 +55,8 @@ export default function ChatWidget() {
   }, [messages]);
 
   useEffect(() => {
-   // sendMessage('error', 'ישנה תקלה זמנית ,אנא נסה שנית מאוחר יותר');
-  },[errors]);
+    // sendMessage('error', 'ישנה תקלה זמנית ,אנא נסה שנית מאוחר יותר');
+  }, [errors]);
   useEffect(() => {
     try {
       setSessionId(uuidv4());
@@ -68,6 +69,7 @@ export default function ChatWidget() {
 
   const sendMessageAsync = async (_type, _value) => {
     try {
+      setLoading(true);
       const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
         type: _type,
         value: _value,
@@ -75,8 +77,9 @@ export default function ChatWidget() {
       }, { headers: { 'Content-Type': 'application/json' } });
 
       if (response && response.data) {
+        setLoading(false);
         if (response.status === 200) {
-          response.data.id=Date.now();
+          response.data.id = Date.now();
           setMessages((prevMessages) => [...prevMessages, response.data]);
         }
         if (response.status != 200) {
@@ -84,12 +87,13 @@ export default function ChatWidget() {
         }
       }
     } catch (error) {
+      setLoading(false);
       console.error('Error post message:', error.message);
       throw error;
     }
   };
 
-  const sendMessage = async (_type=null, _value=null) => {
+  const sendMessage = async (_type = null, _value = null) => {
     try {
       let msg = null
       if (_type === "file") {
@@ -109,7 +113,7 @@ export default function ChatWidget() {
           type: _type,
         };
         setMessages((prevMessages) => [...prevMessages, msg]);
-        const res = await sendMessageAsync(msg.type, msg.value.key+","+msg.value.value);
+        const res = await sendMessageAsync(msg.type, msg.value.key + "," + msg.value.value);
 
       }
       else if (_type === "error") {
@@ -173,10 +177,10 @@ export default function ChatWidget() {
   };
 
   const handleOptionClick = (option) => {
-    sendMessage("optionSelected",option);
+    sendMessage("optionSelected", option);
   };
 
- 
+
 
   return (
     <div className="chat-container">
@@ -200,6 +204,19 @@ export default function ChatWidget() {
             ))}
             <div ref={messagesEndRef} />
           </div>
+          <div>
+            {loading && (
+              <div className="loading-container">
+                <div className="loading-dots">
+                  <span className="dot"></span>
+                  <span className="dot"></span>
+                  <span className="dot"></span>
+                </div>
+                <span className="typing-text">פולה מקלידה</span>
+              </div>
+            )}
+          </div>
+
           <div className="chat-input-container">
             <label htmlFor="file-upload" className="file-upload">
               <img src="/attachment.svg" alt="upload file" />
