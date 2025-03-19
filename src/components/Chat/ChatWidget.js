@@ -53,7 +53,9 @@ export default function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-
+  useEffect(() => {
+   // sendMessage('error', 'ישנה תקלה זמנית ,אנא נסה שנית מאוחר יותר');
+  },[errors]);
   useEffect(() => {
     try {
       setSessionId(uuidv4());
@@ -110,11 +112,19 @@ export default function ChatWidget() {
         const res = await sendMessageAsync(msg.type, msg.value.key+","+msg.value.value);
 
       }
+      else if (_type === "error") {
+        msg = {
+          id: Date.now(),
+          value: _value,
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+      }
       else {
         msg = {
           id: Date.now(),
           value: input.trim(),
-          type: _type,
+          type: "user",
         };
         setMessages((prevMessages) => [...prevMessages, msg]);
         setInput("");
