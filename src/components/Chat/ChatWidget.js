@@ -11,7 +11,7 @@ export default function ChatWidget() {
   const uploadFileRef = useRef(null);
   const [fileUrl, setFileUrl] = useState("");
   const [errors, setErrors] = useState("");
-  const [sessionId, setSessionId] = useState("")
+  const [sessionId, setSessionId] = useState(uuidv4())
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([
     // { id: 1, value: "היי, אני פולה, היועצת הדיגיטלית של אוניברסיטת בן גוריון. אני כאן כדי לייעץ לך לגבי מסלול לימודים, תהליכי קבלה ואפשרויות. האם יש לך כיוון לגבי מסלול לימודים?", type: "bot" },
@@ -57,9 +57,10 @@ export default function ChatWidget() {
   useEffect(() => {
     // sendMessage('error', 'ישנה תקלה זמנית ,אנא נסה שנית מאוחר יותר');
   }, [errors]);
+
   useEffect(() => {
     try {
-      setSessionId(uuidv4());
+      // setSessionId(uuidv4());
       sendMessageAsync('user', 'שלום');
     }
     catch (error) {
