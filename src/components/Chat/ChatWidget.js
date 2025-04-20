@@ -71,17 +71,19 @@ export default function ChatWidget() {
   const sendMessageAsync = async (_type, _value) => {
     try {
       setLoading(true);
-      const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
-        type: _type,
-        value: _value,
-        userid: sessionId
+      // const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
+      const response = await axios.post(`https://e1tdhkbxnh.execute-api.us-east-1.amazonaws.com/test/chat`, {
+        //  type: _type,
+        message: _value,
+        user_id: sessionId
       }, { headers: { 'Content-Type': 'application/json' } });
 
       if (response && response.data) {
         setLoading(false);
         if (response.status === 200) {
-          response.data.id = Date.now();
-          setMessages((prevMessages) => [...prevMessages, response.data]);
+          // response.data.id = Date.now();
+          sendMessage("bot", response.data.output)
+          // setMessages((prevMessages) => [...prevMessages, response.data.output]);
         }
         if (response.status != 200) {
           throw new Error(`Server failed: ${response.data.status}`);
@@ -90,7 +92,6 @@ export default function ChatWidget() {
     } catch (error) {
       setLoading(false);
       console.error('Error post message:', error.message);
-      throw error;
     }
   };
 
@@ -125,6 +126,14 @@ export default function ChatWidget() {
         };
         setMessages((prevMessages) => [...prevMessages, msg]);
       }
+      else if (_type === "bot") {
+        msg = {
+          id: Date.now(),
+          value: _value,
+          type: _type,
+        };
+        setMessages((prevMessages) => [...prevMessages, msg]);
+      }
       else {
         msg = {
           id: Date.now(),
@@ -133,7 +142,8 @@ export default function ChatWidget() {
         };
         setMessages((prevMessages) => [...prevMessages, msg]);
         setInput("");
-        const res = await sendMessageAsync(msg.type, msg.value);
+        if (_type !== "bot")
+          await sendMessageAsync(msg.type, msg.value);
       }
     }
     catch (error) {
