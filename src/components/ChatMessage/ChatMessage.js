@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactMarkdown from 'react-markdown';
 import "./ChatMessage.css"; // ייבוא קובץ ה-CSS
 import CourseCard from "../CourseCard/CourseCard";
 
@@ -74,8 +75,17 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
         })()
       ) : type === "bot" ? (
         <span>
-          <div className="header">פולה היועצת הדיגיטלית</div>
-          {value}
+          <div className="header">
+          פולה היועצת הדיגיטלית           
+            </div>
+            <ReactMarkdown
+            components={{
+              h1: ({node, ...props}) => <h1 style={{  fontSize: '20px' }} {...props} />,
+              h2: ({node, ...props}) => <h2 style={{  fontSize: '18px' }} {...props} />,
+            }}
+            >{value}</ReactMarkdown>
+
+        
         </span>
      ) : type === "optionSelected" ? (
       <span>

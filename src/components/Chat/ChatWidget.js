@@ -3,6 +3,7 @@ import "./ChatWidget.css";
 import ChatMessage from "../ChatMessage/ChatMessage";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { error } from "ajv/dist/vocabularies/applicator/dependencies";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,20 +75,30 @@ export default function ChatWidget() {
       // const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
       const response = await axios.post(`https://e1tdhkbxnh.execute-api.us-east-1.amazonaws.com/test/chat`, {
         //  type: _type,
-        message: _value,
-        user_id: sessionId
+        message: _type != "file" ? _value : null,
+        user_id: sessionId,
+        file: _type == "file" ? _value : null
       }, { headers: { 'Content-Type': 'application/json' } });
 
       if (response && response.data) {
-        setLoading(false);
-        if (response.status === 200) {
-          // response.data.id = Date.now();
-          sendMessage("bot", response.data.output)
-          // setMessages((prevMessages) => [...prevMessages, response.data.output]);
+        if (!response.data.error) {
+          setLoading(false);
+          if (response.status === 200) {
+            // response.data.id = Date.now();
+            sendMessage("bot", response.data.output)
+            // setMessages((prevMessages) => [...prevMessages, response.data.output]);
+          }
+          if (response.status != 200) {
+            throw new Error(`Server failed: ${response.data.status}`);
+          }
         }
-        if (response.status != 200) {
-          throw new Error(`Server failed: ${response.data.status}`);
+        else{
+        throw new Error("server return error: "+response.data.error);
+
         }
+      }
+      else{
+        throw new Error("no date return from server");
       }
     } catch (error) {
       setLoading(false);
@@ -142,8 +153,7 @@ export default function ChatWidget() {
         };
         setMessages((prevMessages) => [...prevMessages, msg]);
         setInput("");
-        if (_type !== "bot")
-          await sendMessageAsync(msg.type, msg.value);
+        await sendMessageAsync(msg.type, msg.value);
       }
     }
     catch (error) {
