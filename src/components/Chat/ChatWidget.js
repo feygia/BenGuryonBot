@@ -74,6 +74,7 @@ export default function ChatWidget() {
       setLoading(true);
       // const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
       const response = await axios.post(`https://e1tdhkbxnh.execute-api.us-east-1.amazonaws.com/test/chat`, {
+        // const response = await axios.post(`http://147.235.193.111:8000/chat`, {
         //  type: _type,
         message: _type != "file" ? _value : null,
         user_id: sessionId,
@@ -207,7 +208,7 @@ export default function ChatWidget() {
     <div className="chat-container">
       {!isOpen ? (
         <button className="chat-button" onClick={() => setIsOpen(true)}>
-          <img className="chat-image" src="../Bot message.png" alt="chat" />
+          <img className="chat-image" src="../Pola.png" alt="chat" />
         </button>
       ) : (
         <div className={`chat-box ${isExpanded ? "expanded" : ""}`}>
