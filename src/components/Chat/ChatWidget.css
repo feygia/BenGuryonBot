@@ -72,7 +72,7 @@
 }
 
 .chat-header {
-  background: #f8f8f8;
+  background:var(--Secondary-White, #FFFFFF);
   display: flex;
   justify-content: end;
   align-items: center;
@@ -97,7 +97,7 @@
   /* גובה אזור ההודעות פי 1.5 */
   overflow-y: auto;
   padding: 9px;
-  background: #f8f8f8;
+  background:var(--Secondary-White, #FFFFFF);
 }
 .chat-message{
   padding: 10px;
@@ -121,7 +121,7 @@
     /* background: linear-gradient(to right, #E16327, #F7941E); */
     /* border-top: 1px solid #ddd; */
     /* border-radius: 0; */
-    background: #f8f8f8;
+    background:var(--Secondary-White, #FFFFFF);
   /* קצוות ישרות עבור החלק הכתום */
 }
 
@@ -212,7 +212,7 @@
   align-items: center;
   gap: 10px;
   padding-right: 21px;
-  background: #f8f8f8;
+  background:var(--Secondary-White, #FFFFFF);
 }
 .typing-text {
   font-size: 15px;
