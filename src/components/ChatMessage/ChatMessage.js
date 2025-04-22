@@ -74,16 +74,18 @@ const ChatMessage = React.memo(({ value, type, onOptionClick, isFullScreen = fal
           );
         })()
       ) : type === "bot" ? (
-        <span>
-          <div className="header">
+        <span className="span-bot">
+          {/* <div className="header">
           פולה היועצת הדיגיטלית           
-            </div>
+            </div> */}
+            <img src='../icon-pola.svg' alt='icon-pola' />
+            <div>
             <ReactMarkdown
             components={{
               h1: ({node, ...props}) => <h1 style={{  fontSize: '20px' }} {...props} />,
               h2: ({node, ...props}) => <h2 style={{  fontSize: '18px' }} {...props} />,
             }}
-            >{value}</ReactMarkdown>
+            >{value}</ReactMarkdown></div>
 
         
         </span>

@@ -244,7 +244,7 @@ export default function ChatWidget() {
               <img src="/attachment.svg" alt="upload file" />
             </label>
             <input id="file-upload" type="file" className="file-input" onChange={handleFileUpload} />
-            <textarea
+            <input
               className="chat-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
