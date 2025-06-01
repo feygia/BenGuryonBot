@@ -73,7 +73,8 @@ export default function ChatWidget() {
     try {
       setLoading(true);
       // const response = await axios.post(`https://fultgs45z1.execute-api.us-east-1.amazonaws.com/dev/process`, {
-      const response = await axios.post(`https://e1tdhkbxnh.execute-api.us-east-1.amazonaws.com/test/chat`, {
+        const response = await axios.post(`http://pola-dev.bgu.ac.il/chat`, {
+          // const response = await axios.post(`https://e1tdhkbxnh.execute-api.us-east-1.amazonaws.com/test/chat`, {----טסטים 
         // const response = await axios.post(`http://147.235.193.111:8000/chat`, {
         //  type: _type,
         message: _type != "file" ? _value : null,
